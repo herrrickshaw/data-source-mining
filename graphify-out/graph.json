@@ -1,0 +1,233 @@
+{
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "nodes": [
+    {
+      "id": "mine_underused_sources",
+      "label": "mine_underused_sources.py",
+      "file_type": "code",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "mine_underused_sources_get_json",
+      "label": "get_json()",
+      "file_type": "code",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L49",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "mine_underused_sources_mine_worldbank",
+      "label": "mine_worldbank()",
+      "file_type": "code",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L61",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "mine_underused_sources_mine_mandi",
+      "label": "mine_mandi()",
+      "file_type": "code",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L89",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "mine_underused_sources_main",
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L119",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "mine_underused_sources_rationale_2",
+      "label": "Mine the under-used open data sources identified from the provenance log…",
+      "file_type": "rationale",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L2",
+      "_origin": "ast"
+    }
+  ],
+  "links": [
+    {
+      "source": "mine_underused_sources",
+      "target": "argparse",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources",
+      "target": "json",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources",
+      "target": "time",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources",
+      "target": "urllib_request",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources",
+      "target": "datetime",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources",
+      "target": "duckdb",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources",
+      "target": "mine_underused_sources_get_json",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources",
+      "target": "mine_underused_sources_mine_worldbank",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L61",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources",
+      "target": "mine_underused_sources_mine_mandi",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L89",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources",
+      "target": "mine_underused_sources_main",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L119",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources_mine_worldbank",
+      "target": "mine_underused_sources_get_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources_mine_mandi",
+      "target": "mine_underused_sources_get_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources_main",
+      "target": "mine_underused_sources_mine_worldbank",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L126",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources_main",
+      "target": "mine_underused_sources_mine_mandi",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L129",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "mine_underused_sources_rationale_2",
+      "target": "mine_underused_sources",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "mine_underused_sources.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    }
+  ],
+  "directed": false
+}

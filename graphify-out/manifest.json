@@ -1,0 +1,14 @@
+{
+  "mine_underused_sources.py": {
+    "mtime": 1784593388.2995627,
+    "seen": 1789193287.706121,
+    "ast_hash": "293cc1b6189a05627b1b6fa8449c98e8",
+    "semantic_hash": ""
+  },
+  ".github/workflows/quality-gates.yml": {
+    "mtime": 1789577618.478669,
+    "seen": 1789968644.2532558,
+    "ast_hash": "510f7e392c07f0574ba8a559ba2cdf12",
+    "semantic_hash": ""
+  }
+}
