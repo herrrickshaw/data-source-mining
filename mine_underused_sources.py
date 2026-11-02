@@ -17,12 +17,20 @@ import time
 import urllib.request
 from datetime import date
 from pathlib import Path
+from typing import Any
 
 import duckdb
 
 BASE = Path(__file__).resolve().parent
 DB = BASE / "underused_sources.duckdb"
 UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
+HTTP_TIMEOUT_S = 30
+HTTP_RETRIES = 3
+RETRY_BACKOFF_S = 2          # sleep 2s, 4s, ... between retries
+WB_PER_PAGE = 1000           # World Bank API page size
+WB_PAUSE_S = 0.3             # pause between indicators
+MANDI_PAGE_SIZE = 1000       # data.gov.in page size
+MANDI_PAUSE_S = 0.5          # pause between pages
 
 # data.gov.in public sample key (documented on data.gov.in itself)
 DGI_KEY = "579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b"
@@ -46,26 +54,28 @@ WB_INDICATORS = {
 WB_COUNTRIES = ["IND", "USA", "CHN", "BRA", "DEU", "JPN", "KOR"]
 
 
-def get_json(url, retries=3):
+def get_json(url: str, retries: int = HTTP_RETRIES) -> Any:
+    """GET `url` and parse JSON, retrying with linear back-off; re-raises the last error."""
     for i in range(retries):
         try:
             req = urllib.request.Request(url, headers=UA)
-            with urllib.request.urlopen(req, timeout=30) as r:
+            with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT_S) as r:
                 return json.load(r)
-        except Exception as e:
+        except Exception:
             if i == retries - 1:
                 raise
-            time.sleep(2 * (i + 1))
+            time.sleep(RETRY_BACKOFF_S * (i + 1))
 
 
-def mine_worldbank(con):
-    rows = []
+def mine_worldbank(con: duckdb.DuckDBPyConnection) -> int:
+    """Pull WB_INDICATORS for WB_COUNTRIES (all years) into worldbank_indicators; returns row count."""
+    rows: list[tuple] = []
     for iso in WB_COUNTRIES:
         for code, name in WB_INDICATORS.items():
             page = 1
             while True:
                 url = (f"https://api.worldbank.org/v2/country/{iso}/indicator/"
-                       f"{code}?format=json&per_page=1000&page={page}")
+                       f"{code}?format=json&per_page={WB_PER_PAGE}&page={page}")
                 d = get_json(url)
                 if not d or len(d) < 2 or not d[1]:
                     break
@@ -77,7 +87,7 @@ def mine_worldbank(con):
                 if page >= d[0].get("pages", 1):
                     break
                 page += 1
-            time.sleep(0.3)
+            time.sleep(WB_PAUSE_S)
         print(f"  worldbank: {iso} done ({len(rows)} rows cumulative)")
     con.execute("""CREATE OR REPLACE TABLE worldbank_indicators (
         country TEXT, indicator_code TEXT, indicator TEXT,
@@ -86,8 +96,10 @@ def mine_worldbank(con):
     return len(rows)
 
 
-def mine_mandi(con):
-    rows, offset, limit = [], 0, 1000
+def mine_mandi(con: duckdb.DuckDBPyConnection) -> int:
+    """Pull today's Agmarknet mandi prices (data.gov.in) into mandi_prices; returns rows pulled."""
+    rows: list[tuple] = []
+    offset, limit = 0, MANDI_PAGE_SIZE
     while True:
         url = (f"https://api.data.gov.in/resource/{MANDI_RESOURCE}"
                f"?api-key={DGI_KEY}&format=json&limit={limit}&offset={offset}")
@@ -104,7 +116,7 @@ def mine_mandi(con):
         if len(recs) < limit:
             break
         offset += limit
-        time.sleep(0.5)
+        time.sleep(MANDI_PAUSE_S)
     con.execute("""CREATE TABLE IF NOT EXISTS mandi_prices (
         state TEXT, district TEXT, market TEXT, commodity TEXT,
         variety TEXT, grade TEXT, arrival_date TEXT,
@@ -116,8 +128,9 @@ def mine_mandi(con):
     return len(rows)
 
 
-def main():
-    ap = argparse.ArgumentParser()
+def main() -> None:
+    """CLI entry: pull one or both sources into underused_sources.duckdb and print table sizes."""
+    ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--wb-only", action="store_true")
     ap.add_argument("--mandi-only", action="store_true")
     args = ap.parse_args()
