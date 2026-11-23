@@ -1,0 +1,5 @@
+[run]
+source = mine_underused_sources
+omit =
+    tests/*
+    */conftest.py
